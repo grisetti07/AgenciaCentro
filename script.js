@@ -5,15 +5,21 @@ async function obtenerResultados() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
 
-        // AJUSTAR SEGÚN EL CÓDIGO DE LA PÁGINA
-        const resultados = doc.querySelectorAll('.clase-de-los-resultados');  
+        // CAMBIAR ESTE SELECTOR SEGÚN LO QUE INSPECCIONASTE EN LA PÁGINA
+        const resultados = doc.querySelectorAll('.nombre-de-la-clase-del-resultado');  
 
         let html = '<h2>Últimos Resultados</h2><table border="1"><tr><th>Horario</th><th>Resultado</th></tr>';
-        resultados.forEach(resultado => {
-            html += <tr><td>Horario X</td><td>${resultado.textContent}</td></tr>;
+        resultados.forEach((resultado, index) => {
+            html += <tr><td>Horario ${index + 1}</td><td>${resultado.textContent.trim()}</td></tr>;
         });
         html += '</table>';
 
         document.getElementById('resultados').innerHTML = html;
     } catch (error) {
-        document.getElementById('resultados').innerHTML = "
+        document.getElementById('resultados').innerHTML = "Error al obtener los resultados.";
+        console.error("Error:", error);
+    }
+}
+
+// Ejecutar la función cuando la página cargue
+window.onload = obtenerResultados;
