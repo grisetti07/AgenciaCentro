@@ -1,6 +1,6 @@
 async function obtenerResultados() {
     try {
-        const urlAPI = "PEGAR_AQUI_LA_URL_DE_TU_GOOGLE_SCRIPT";
+        const urlAPI = "https://script.google.com/macros/s/AKfycbxTwd6pMG_DH-LsdVByNRF6bjw69aqFusBuPLjtwx5fZ-oSdVckbPc_0BN8PKzLIb1mCg/exec"; // Reemplazar con tu nueva URL de Google Apps Script
         const respuesta = await fetch(urlAPI);
         const texto = await respuesta.text();
 
@@ -11,7 +11,7 @@ async function obtenerResultados() {
         let horarios = ["Previa", "Primera", "Matutina", "Vespertina", "Nocturna"];
 
         let tabla = document.getElementById("resultados");
-        tabla.innerHTML = "";
+        tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 
         horarios.forEach((horario) => {
             let fila = document.createElement("tr");
@@ -21,7 +21,11 @@ async function obtenerResultados() {
 
             quinielas.forEach((quiniela) => {
                 let celda = document.createElement("td");
+                
+                // Aquí buscamos el número ganador en el HTML obtenido
                 let resultado = doc.querySelector(`[data-quiniela="${quiniela}"][data-horario="${horario}"]`);
+                
+                // Si lo encontramos, lo ponemos en la tabla, si no, mostramos "---"
                 celda.textContent = resultado ? resultado.textContent.trim() : "---";
                 fila.appendChild(celda);
             });
@@ -33,6 +37,6 @@ async function obtenerResultados() {
     }
 }
 
-// Actualizar cada 60 segundos
+// Actualizar la tabla cada 60 segundos
 setInterval(obtenerResultados, 60000);
 obtenerResultados();
