@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados Quiniela</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Resultados de la Lotería</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-    <h1>Resultados de la Quiniela</h1>
-    <table id="tabla-quiniela">
+    <h1>Resultados de la Lotería</h1>
+    <table>
         <thead>
             <tr>
-                <th>Sorteo</th>
-                <th>1°</th>
-                <th>2°</th>
-                <th>3°</th>
-                <th>4°</th>
-                <th>5°</th>
+                <th>Horario</th>
+                <th>Ciudad</th>
+                <th>Provincia</th>
+                <th>Córdoba</th>
+                <th>Santa Fe</th>
+                <th>Entre Ríos</th>
+                <th>Montevideo</th>
             </tr>
         </thead>
-        <tbody>
-            <!-- Aquí se llenarán los datos dinámicamente -->
+        <tbody id="resultados">
+            <tr><td>Previa</td><td colspan="6">Cargando...</td></tr>
+            <tr><td>Primera</td><td colspan="6">Cargando...</td></tr>
+            <tr><td>Matutina</td><td colspan="6">Cargando...</td></tr>
+            <tr><td>Vespertina</td><td colspan="6">Cargando...</td></tr>
+            <tr><td>Nocturna</td><td colspan="6">Cargando...</td></tr>
         </tbody>
     </table>
-
     <script src="script.js"></script>
-
 </body>
 </html>
