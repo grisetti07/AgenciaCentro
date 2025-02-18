@@ -14,12 +14,14 @@ table {
     margin: 20px auto;
     border-collapse: collapse;
     background: white;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
 
 th, td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: center;
+    font-size: 18px;
 }
 
 th {
@@ -28,10 +30,14 @@ th {
 }
 
 td {
-    font-size: 18px;
+    background-color: #fff;
 }
 
-td[colspan="6"] {
-    font-style: italic;
-    color: #888;
+td[contenteditable="true"] {
+    background-color: #f8f9fa;
+    cursor: pointer;
+}
+
+td[contenteditable="true"]:focus {
+    outline: 2px solid #007bff;
 }
