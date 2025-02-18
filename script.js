@@ -6,7 +6,7 @@ async function obtenerResultados() {
         const doc = parser.parseFromString(text, 'text/html');
 
         // CAMBIAR ESTE SELECTOR SEGÚN LO QUE INSPECCIONASTE EN LA PÁGINA
-        const resultados = doc.querySelectorAll('container-xl.px-0.px-lg-3');  
+        const resultados = doc.querySelectorAll('<span class="caja-resultado my-0" data-texto="momento_1">3843</span>');  
 
         let html = '<h2>Últimos Resultados</h2><table border="1"><tr><th>Horario</th><th>Resultado</th></tr>';
         resultados.forEach((resultado, index) => {
