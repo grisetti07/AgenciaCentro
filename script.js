@@ -1,43 +1,30 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f8f9fa;
-    padding: 20px;
-}
+document.addEventListener("DOMContentLoaded", function() {
+    let celdas = document.querySelectorAll("td[contenteditable='false']");
+    let botonEdicion = document.getElementById("modoEdicion");
 
-h1 {
-    color: #333;
-}
+    // Función para habilitar o deshabilitar la edición
+    botonEdicion.addEventListener("click", function() {
+        let password = prompt("Ingrese la contraseña para habilitar la edición:");
 
-table {
-    width: 80%;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-}
+        if (password === "1234") {  // 🔒 Cambia "1234" por tu contraseña segura
+            celdas.forEach((celda, index) => {
+                celda.setAttribute("contenteditable", "true");
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: center;
-    font-size: 18px;
-}
+                // Cargar datos guardados en el navegador
+                let datoGuardado = localStorage.getItem("celda_" + index);
+                if (datoGuardado) {
+                    celda.textContent = datoGuardado;
+                }
 
-th {
-    background-color: #007bff;
-    color: white;
-}
+                // Guardar cambios en localStorage cuando se edita una celda
+                celda.addEventListener("input", function() {
+                    localStorage.setItem("celda_" + index, celda.textContent);
+                });
+            });
 
-td {
-    background-color: #fff;
-}
-
-td[contenteditable="true"] {
-    background-color: #f8f9fa;
-    cursor: pointer;
-}
-
-td[contenteditable="true"]:focus {
-    outline: 2px solid #007bff;
-}
+            alert("Modo edición activado. Ahora puedes escribir en la tabla.");
+        } else {
+            alert("Contraseña incorrecta. No tienes permiso para editar.");
+        }
+    });
+});
