@@ -1,9 +1,9 @@
 async function obtenerResultados() {
     try {
-        const respuesta = await fetch("https://dejugadas.com/cabezas");
+        const urlAPI = "PEGAR_AQUI_LA_URL_DE_TU_GOOGLE_SCRIPT";
+        const respuesta = await fetch(urlAPI);
         const texto = await respuesta.text();
 
-        // Extraer los datos manualmente desde el HTML
         let parser = new DOMParser();
         let doc = parser.parseFromString(texto, "text/html");
 
@@ -11,9 +11,9 @@ async function obtenerResultados() {
         let horarios = ["Previa", "Primera", "Matutina", "Vespertina", "Nocturna"];
 
         let tabla = document.getElementById("resultados");
-        tabla.innerHTML = ""; // Limpiar la tabla
+        tabla.innerHTML = "";
 
-        horarios.forEach((horario, i) => {
+        horarios.forEach((horario) => {
             let fila = document.createElement("tr");
             let celdaHorario = document.createElement("td");
             celdaHorario.textContent = horario;
@@ -29,10 +29,10 @@ async function obtenerResultados() {
             tabla.appendChild(fila);
         });
     } catch (error) {
-        console.error("Error obteniendo los resultados:", error);
+        console.error("Error obteniendo los datos:", error);
     }
 }
 
-// Cargar los resultados cada 60 segundos
+// Actualizar cada 60 segundos
 setInterval(obtenerResultados, 60000);
 obtenerResultados();
