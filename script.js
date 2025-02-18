@@ -1,6 +1,6 @@
 async function obtenerResultados() {
     try {
-        const response = await fetch('https://dejugadas.com/');
+        const response = await fetch('https://dejugadas.com/cabezas');
         const text = await response.text();
         const parser = new DOMParser();
         const doc = parser.parseFromString(text, 'text/html');
