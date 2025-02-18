@@ -1,31 +1,46 @@
-async function obtenerResultados() {
+async function obtenerDatosQuiniela() {
     try {
-        // URL del servidor intermedio (proxy) que evitará el bloqueo CORS
-        const proxyUrl = "https://corsproxy.io/?";
-        const targetUrl = "https://dejugadas.com/cabezas";
+        const respuesta = await fetch("https://www.dejugadas.com/cabezas");
+        const textoHTML = await respuesta.text();
 
-        // Hacer la solicitud al proxy
-        const respuesta = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-        const datos = await respuesta.json();
+        // Crear un DOM virtual para extraer datos
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(textoHTML, "text/html");
 
-        // Convertir la respuesta en HTML
-        let parser = new DOMParser();
-        let doc = parser.parseFromString(datos.contents, "text/html");
+        // Seleccionamos la tabla que contiene los resultados
+        const filas = doc.querySelectorAll("table tr");
 
-        // Buscar la tabla de resultados
-        let tabla = doc.querySelector(".tabla-de-resultados"); // Ajustar si es otra clase
+        let datos = [];
+        filas.forEach((fila, index) => {
+            if (index > 0 && index <= 5) {  // Tomamos solo las 5 primeras filas de resultados
+                const columnas = fila.querySelectorAll("td");
+                let filaDatos = [];
+                columnas.forEach((columna) => {
+                    filaDatos.push(columna.innerText);
+                });
+                datos.push(filaDatos);
+            }
+        });
 
-        if (tabla) {
-            document.getElementById("resultados").innerHTML = tabla.outerHTML;
-        } else {
-            document.getElementById("resultados").innerHTML = "No se encontraron resultados.";
-        }
-
+        mostrarDatos(datos);
     } catch (error) {
-        console.error("Error al obtener los resultados:", error);
-        document.getElementById("resultados").innerHTML = "Error al cargar los resultados.";
+        console.error("Error obteniendo los datos:", error);
     }
 }
 
-// Llamar a la función cuando la página cargue
-obtenerResultados();
+function mostrarDatos(datos) {
+    const tbody = document.querySelector("#tabla-quiniela tbody");
+    tbody.innerHTML = "";
+
+    datos.forEach((fila) => {
+        let tr = document.createElement("tr");
+        fila.forEach((dato) => {
+            let td = document.createElement("td");
+            td.textContent = dato;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+}
+
+obtenerDatosQuiniela();
