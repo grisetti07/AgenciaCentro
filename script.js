@@ -1,7 +1,7 @@
 async function obtenerResultados() {
     try {
         // URL del servidor intermedio (proxy) que evitará el bloqueo CORS
-        const proxyUrl = "https://api.allorigins.win/get?url=";
+        const proxyUrl = "https://corsproxy.io/?";
         const targetUrl = "https://dejugadas.com/cabezas";
 
         // Hacer la solicitud al proxy
