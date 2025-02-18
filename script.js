@@ -1,19 +1,19 @@
 async function obtenerResultados() {
     try {
-        // Nuevo proxy para evitar CORS
-        const proxyUrl = "https://corsproxy.io/?";
+        // URL del servidor intermedio (proxy) que evitará el bloqueo CORS
+        const proxyUrl = "https://api.allorigins.win/get?url=";
         const targetUrl = "https://dejugadas.com/cabezas";
 
         // Hacer la solicitud al proxy
         const respuesta = await fetch(proxyUrl + encodeURIComponent(targetUrl));
-        const texto = await respuesta.text();
+        const datos = await respuesta.json();
 
-        // Crear un parser para analizar el HTML
+        // Convertir la respuesta en HTML
         let parser = new DOMParser();
-        let doc = parser.parseFromString(texto, "text/html");
+        let doc = parser.parseFromString(datos.contents, "text/html");
 
         // Buscar la tabla de resultados
-        let tabla = doc.querySelector(".tabla-de-resultados"); // Ajustar si la clase es diferente
+        let tabla = doc.querySelector(".tabla-de-resultados"); // Ajustar si es otra clase
 
         if (tabla) {
             document.getElementById("resultados").innerHTML = tabla.outerHTML;
