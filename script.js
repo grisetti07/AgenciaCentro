@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
         celdas.forEach((celda, index) => {
             let datoGuardado = localStorage.getItem("celda_" + index);
             if (datoGuardado) {
-                celda.textContent = datoGuardado;
+                celda.textContent = datoGuardado;  // Mostrar los datos guardados siempre
             }
         });
     }
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Ejecutar carga de datos al iniciar
+    // Ejecutar carga de datos al iniciar (para que siempre se muestren)
     cargarDatos();
 
     // Verificar si el botón existe antes de asignar el evento
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         botonEdicion.addEventListener("click", function() {
             let password = prompt("Ingrese la contraseña para habilitar la edición:");
 
-            if (password === "1234") {  // 🔒 Cambia "1234" por la contraseña que prefieras
+            if (password === "1234") {  // 🔒 Cambia "1234" por tu contraseña segura
                 celdas.forEach((celda) => {
                     celda.setAttribute("contenteditable", "true");
                 });
