@@ -1,20 +1,37 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin: 20px;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
 }
 
 table {
-    width: 60%;
-    margin: auto;
+    width: 80%;
+    margin: 20px auto;
     border-collapse: collapse;
+    background: white;
 }
 
 th, td {
-    border: 1px solid black;
     padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #007bff;
+    color: white;
+}
+
+td {
+    font-size: 18px;
+}
+
+td[colspan="6"] {
+    font-style: italic;
+    color: #888;
 }
