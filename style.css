@@ -1,19 +1,28 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background: #f8f8f8;
-}
-
-h1 {
-    color: #333;
-}
-
+/* Estilo para la tabla de resultados */
 #resultados {
-    font-size: 20px;
-    margin-top: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+#resultados table {
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+#resultados th, #resultados td {
+    border: 1px solid #ddd;
     padding: 10px;
-    border: 2px solid #000;
-    background: white;
-    display: inline-block;
-    min-width: 300px;
+    text-align: center;
+}
+
+#resultados th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+#resultados tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
