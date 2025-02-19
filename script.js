@@ -1,6 +1,6 @@
 const GITHUB_USERNAME = "TU_USUARIO"; // Reemplaza con tu usuario de GitHub
 const REPO_NAME = "agenciacentro"; // Reemplaza con el nombre de tu repositorio
-const FILE_PATH = "data/resultados.json"; // Ruta donde se guardará el archivo
+const FILE_PATH = "data/resultados.json"; // Ruta donde se guardará el archivo en GitHub
 const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -46,37 +46,46 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         let jsonStr = JSON.stringify(data, null, 2);
+        let base64Content = btoa(unescape(encodeURIComponent(jsonStr))); // Convertir JSON a Base64
 
         try {
-            let getFileResponse = await fetch(GITHUB_API_URL, {
-                headers: { "Accept": "application/vnd.github.v3+json" }
+            // Obtener SHA del archivo actual en GitHub
+            let getFileResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                headers: { 
+                    "Authorization": `Bearer ${process.env.TOKEN}`, // Usando el secreto de GitHub
+                    "Accept": "application/vnd.github.v3+json"
+                }
             });
 
             let fileData = await getFileResponse.json();
-            let sha = fileData.sha;
+            let sha = fileData.sha || "";
 
-            let response = await fetch(GITHUB_API_URL, {
+            // Subir el archivo actualizado a GitHub
+            let response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
                 method: "PUT",
                 headers: {
-                    "Authorization": `Bearer ${process.env.TOKEN}`, // Aquí usamos el secreto TOKEN
+                    "Authorization": `Bearer ${process.env.TOKEN}`, // Usando el secreto de GitHub
                     "Accept": "application/vnd.github.v3+json",
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     message: "Actualización automática de resultados",
-                    content: btoa(jsonStr),
+                    content: base64Content,
                     sha: sha
                 })
             });
 
             if (response.ok) {
-                alert("Datos guardados y subidos a GitHub correctamente.");
+                alert("✅ Datos guardados y subidos a GitHub correctamente.");
             } else {
-                alert("Error al subir datos a GitHub.");
+                let errorMessage = await response.json();
+                console.error("Error al subir datos:", errorMessage);
+                alert("❌ Error al subir datos a GitHub. Revisa la consola.");
             }
 
         } catch (error) {
             console.error("Error al subir datos:", error);
+            alert("❌ Error inesperado al intentar guardar los datos.");
         }
     }
 
@@ -90,9 +99,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     celda.setAttribute("contenteditable", "true");
                 });
 
-                alert("Modo edición activado. Ahora puedes escribir en la tabla.");
+                alert("🔓 Modo edición activado. Ahora puedes escribir en la tabla.");
             } else {
-                alert("Contraseña incorrecta. No tienes permiso para editar.");
+                alert("❌ Contraseña incorrecta. No tienes permiso para editar.");
             }
         });
     }
