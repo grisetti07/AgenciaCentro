@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // Guardar datos y activar GitHub Actions
     async function guardarDatos() {
-        let fecha = document.getElementById("fechaActual").textContent.replace("Fecha: ", "");
+        let fecha = new Date().toLocaleDateString("es-AR");
         let filas = document.querySelectorAll("tbody tr");
         let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
         let data = { fecha: fecha, resultados: {} };
@@ -36,11 +36,12 @@ document.addEventListener("DOMContentLoaded", function() {
             let response = await fetch(`https://api.github.com/repos/grisetti07/agenciacentro/dispatches`, {
                 method: "POST",
                 headers: {
-                    "Accept": "application/vnd.github.everest-preview+json"
+                    "Accept": "application/vnd.github.everest-preview+json",
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
                     event_type: "update_resultados",
-                    client_payload: { data: JSON.stringify(data, null, 2) }
+                    client_payload: { data: data }
                 })
             });
 
