@@ -18,9 +18,9 @@ jobs:
 
       - name: Guardar datos en resultados.json
         run: |
-          echo '${{ toJson(github.event.client_payload.data) }}' > data/resultados.json
+          echo '${{ github.event.client_payload.data }}' > data/resultados.json
           git add data/resultados.json
           git commit -m "Actualización automática de resultados"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
