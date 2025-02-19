@@ -1,0 +1,11 @@
+{
+    "fecha": "Martes 18 de Febrero",
+    "resultados": {
+        "Ciudad": ["", "", "", "", ""],
+        "Provincia": ["", "", "", "", ""],
+        "Córdoba": ["", "", "", "", ""],
+        "Santa Fe": ["", "", "", "", ""],
+        "Entre Ríos": ["", "", "", "", ""],
+        "Montevideo": ["", "", "", "", ""]
+    }
+}
