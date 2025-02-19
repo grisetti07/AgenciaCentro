@@ -3,75 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultados de la Quiniela</title>
+    <title>Agencia Centro - Resultados de la Quiniela</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Resultados de la Quiniela</h1>
-
-    <!-- Botón para habilitar la edición con contraseña -->
-    <button id="modoEdicion">Habilitar Edición</button>
+    <header>
+        <h1>AGENCIA CENTRO</h1>
+        <p class="direccion">Calle 18 Num 613</p>
+        <div class="fecha">
+            <span id="fechaActual">Martes 18 de Febrero</span>
+        </div>
+    </header>
 
     <table>
         <thead>
             <tr>
-                <th>Horario</th>
-                <th>Ciudad</th>
-                <th>Provincia</th>
-                <th>Córdoba</th>
-                <th>Santa Fe</th>
-                <th>Entre Ríos</th>
-                <th>Montevideo</th>
+                <th>Lotería</th>
+                <th>Previa</th>
+                <th>Primera</th>
+                <th>Matutina</th>
+                <th>Vespertina</th>
+                <th>Nocturna</th>
             </tr>
         </thead>
-        <tbody id="resultados">
-            <tr>
-                <td>Previa</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-            </tr>
-            <tr>
-                <td>Primera</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-            </tr>
-            <tr>
-                <td>Matutina</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-            </tr>
-            <tr>
-                <td>Vespertina</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-            </tr>
-            <tr>
-                <td>Nocturna</td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-                <td contenteditable="false"></td>
-            </tr>
+        <tbody>
+            <tr><td>Ciudad</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
+            <tr><td>Provincia</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
+            <tr><td>Córdoba</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
+            <tr><td>Santa Fe</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
+            <tr><td>Entre Ríos</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
+            <tr><td>Montevideo</td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td><td contenteditable="false"></td></tr>
         </tbody>
     </table>
+
+    <button id="modoEdicion">Habilitar Edición</button>
 
     <script src="script.js"></script>
 </body>
