@@ -1,7 +1,3 @@
-const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
-const REPO_NAME = "agenciacentro"; // Nombre del repositorio
-const FILE_PATH = "data/resultados.json"; // Ruta del archivo en GitHub
-
 document.addEventListener("DOMContentLoaded", function() {
     let botonEdicion = document.getElementById("modoEdicion");
     let botonGuardar = document.getElementById("guardarDatos");
