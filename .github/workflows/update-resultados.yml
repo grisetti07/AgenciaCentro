@@ -1,9 +1,9 @@
-# Este es el archivo de GitHub Actions para actualizar los resultados
 name: Actualizar Resultados
 
 on:
+  workflow_dispatch:  # 🔹 Permite ejecutar el workflow manualmente desde GitHub Actions
   repository_dispatch:
-    types: [update_resultados]
+    types: [update_resultados]  # 🔹 Permite ejecutar el workflow desde `script.js`
 
 jobs:
   update:
@@ -20,6 +20,7 @@ jobs:
       - name: Guardar datos en resultados.json
         run: |
           echo '${{ github.event.client_payload.data }}' > data/resultados.json
+          cat data/resultados.json  # 🔹 Muestra el contenido del archivo en la consola
           git add data/resultados.json
           git commit -m "Actualización automática de resultados"
           git push
