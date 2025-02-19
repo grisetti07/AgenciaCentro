@@ -1,46 +1,47 @@
-document.addEventListener("DOMContentLoaded", function() {
-    let botonEdicion = document.getElementById("modoEdicion");
-    let celdas = document.querySelectorAll("td:not(:first-child)"); // Excluye la primera columna con horarios
+const urlJSON = "https://raw.githubusercontent.com/TU_USUARIO/agenciacentro/main/data/resultados.json";
 
-    // ✅ Función para cargar datos guardados en el navegador
-    function cargarDatos() {
-        celdas.forEach((celda, index) => {
-            let datoGuardado = localStorage.getItem("celda_" + index);
-            if (datoGuardado !== null) {
-                celda.textContent = datoGuardado; // Muestra los datos guardados siempre
-            }
-        });
-    }
+// Cargar datos desde GitHub
+async function cargarDatos() {
+    try {
+        let response = await fetch(urlJSON);
+        let data = await response.json();
+        
+        // Mostrar la fecha
+        document.getElementById("fechaActual").textContent = data.fecha;
 
-    // ✅ Función para guardar los datos cuando el usuario los edita
-    function guardarDatos() {
-        celdas.forEach((celda, index) => {
-            celda.addEventListener("input", function() {
-                localStorage.setItem("celda_" + index, celda.textContent);
+        // Llenar la tabla con los datos del JSON
+        let filas = document.querySelectorAll("tbody tr");
+        let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
+
+        filas.forEach((fila, index) => {
+            let celdas = fila.querySelectorAll("td:not(:first-child)");
+            let resultados = data.resultados[loterias[index]];
+
+            resultados.forEach((numero, i) => {
+                celdas[i].textContent = numero;
             });
         });
+
+    } catch (error) {
+        console.error("Error cargando datos:", error);
     }
+}
 
-    // ✅ Ejecutar carga de datos al iniciar la página (para que siempre se vean)
-    cargarDatos();
+// Guardar datos en GitHub (solo funciona manualmente)
+async function guardarDatos() {
+    let fecha = document.getElementById("fechaActual").textContent;
+    let filas = document.querySelectorAll("tbody tr");
+    let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
+    let data = { fecha: fecha, resultados: {} };
 
-    // ✅ Verificar si el botón de edición existe antes de asignar la acción
-    if (botonEdicion) {
-        botonEdicion.addEventListener("click", function() {
-            let password = prompt("Ingrese la contraseña para habilitar la edición:");
+    filas.forEach((fila, index) => {
+        let celdas = fila.querySelectorAll("td:not(:first-child)");
+        data.resultados[loterias[index]] = Array.from(celdas).map(celda => celda.textContent);
+    });
 
-            if (password === "1234") {  // 🔒 Cambia "1234" por tu contraseña segura
-                celdas.forEach((celda) => {
-                    celda.setAttribute("contenteditable", "true");
-                });
+    console.log("Datos guardados:", JSON.stringify(data, null, 2));
+    alert("Los datos se guardaron. Ahora sube `resultados.json` manualmente a GitHub.");
+}
 
-                alert("Modo edición activado. Ahora puedes escribir en la tabla.");
-                guardarDatos();  // Activar el guardado después de desbloquear
-            } else {
-                alert("Contraseña incorrecta. No tienes permiso para editar.");
-            }
-        });
-    } else {
-        console.error("El botón 'modoEdicion' no se encontró en la página.");
-    }
-});
+// Cargar datos cuando se abre la página
+cargarDatos();
