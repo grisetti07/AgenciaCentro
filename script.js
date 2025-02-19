@@ -4,21 +4,19 @@ document.addEventListener("DOMContentLoaded", function() {
     let celdas = document.querySelectorAll("td:not(:first-child)");
 
     // Habilitar edición con contraseña
-    if (botonEdicion) {
-        botonEdicion.addEventListener("click", function() {
-            let password = prompt("Ingrese la contraseña para habilitar la edición:");
+    botonEdicion.addEventListener("click", function() {
+        let password = prompt("Ingrese la contraseña para habilitar la edición:");
 
-            if (password === "1234") {
-                celdas.forEach((celda) => {
-                    celda.setAttribute("contenteditable", "true");
-                });
+        if (password === "1234") {
+            celdas.forEach((celda) => {
+                celda.setAttribute("contenteditable", "true");
+            });
 
-                alert("🔓 Modo edición activado. Ahora puedes modificar los datos.");
-            } else {
-                alert("❌ Contraseña incorrecta. No tienes permiso para editar.");
-            }
-        });
-    }
+            alert("🔓 Modo edición activado. Ahora puedes modificar los datos.");
+        } else {
+            alert("❌ Contraseña incorrecta. No tienes permiso para editar.");
+        }
+    });
 
     // Guardar datos y activar GitHub Actions
     async function guardarDatos() {
@@ -41,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify({
                     event_type: "update_resultados",
-                    client_payload: { data: data }
+                    client_payload: { data: JSON.stringify(data, null, 2) }
                 })
             });
 
@@ -60,8 +58,5 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Evento del botón Guardar
-    if (botonGuardar) {
-        botonGuardar.addEventListener("click", guardarDatos);
-    }
+    botonGuardar.addEventListener("click", guardarDatos);
 });
-
