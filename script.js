@@ -1,6 +1,5 @@
 const urlJSON = "https://raw.githubusercontent.com/TU_USUARIO/agenciacentro/main/data/resultados.json";
 
-// Cargar datos desde GitHub
 async function cargarDatos() {
     try {
         let response = await fetch(urlJSON);
@@ -27,7 +26,29 @@ async function cargarDatos() {
     }
 }
 
-// Guardar datos en GitHub (solo funciona manualmente)
+// ✅ Habilitar la edición después de ingresar la contraseña
+document.addEventListener("DOMContentLoaded", function() {
+    let botonEdicion = document.getElementById("modoEdicion");
+    let celdas = document.querySelectorAll("td:not(:first-child)");
+
+    if (botonEdicion) {
+        botonEdicion.addEventListener("click", function() {
+            let password = prompt("Ingrese la contraseña para habilitar la edición:");
+
+            if (password === "1234") {  
+                celdas.forEach((celda) => {
+                    celda.setAttribute("contenteditable", "true");
+                });
+
+                alert("Modo edición activado. Ahora puedes escribir en la tabla.");
+            } else {
+                alert("Contraseña incorrecta. No tienes permiso para editar.");
+            }
+        });
+    }
+});
+
+// ✅ Guardar los datos editados y generar JSON
 async function guardarDatos() {
     let fecha = document.getElementById("fechaActual").textContent;
     let filas = document.querySelectorAll("tbody tr");
@@ -43,5 +64,5 @@ async function guardarDatos() {
     alert("Los datos se guardaron. Ahora sube `resultados.json` manualmente a GitHub.");
 }
 
-// Cargar datos cuando se abre la página
+// ✅ Cargar los datos al iniciar la página
 cargarDatos();
