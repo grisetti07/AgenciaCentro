@@ -1,13 +1,19 @@
+const GITHUB_USERNAME = "grisetti07"; // Reemplaza con tu usuario de GitHub
+const REPO_NAME = "agenciacentro"; // Reemplaza con el nombre de tu repositorio
+const FILE_PATH = "data/resultados.json"; // Ruta donde se guardará el archivo
+const GITHUB_TOKEN = "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"; // 🔴 Reemplaza con tu Token de GitHub
+
 document.addEventListener("DOMContentLoaded", function() {
     let botonEdicion = document.getElementById("modoEdicion");
     let botonGuardar = document.getElementById("guardarDatos");
     let celdas = document.querySelectorAll("td:not(:first-child)");
 
-    // Cargar datos guardados en el navegador
-    function cargarDatos() {
-        let datosGuardados = localStorage.getItem("resultados");
-        if (datosGuardados) {
-            let data = JSON.parse(datosGuardados);
+    // Cargar datos desde GitHub
+    async function cargarDatos() {
+        try {
+            let response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${FILE_PATH}`);
+            let data = await response.json();
+            
             document.getElementById("fechaActual").textContent = data.fecha;
             
             let filas = document.querySelectorAll("tbody tr");
@@ -21,11 +27,14 @@ document.addEventListener("DOMContentLoaded", function() {
                     celdas[i].textContent = numero;
                 });
             });
+
+        } catch (error) {
+            console.error("Error cargando datos:", error);
         }
     }
 
-    // Guardar datos en el navegador
-    function guardarDatos() {
+    // Guardar datos y subirlos a GitHub automáticamente
+    async function guardarDatos() {
         let fecha = document.getElementById("fechaActual").textContent;
         let filas = document.querySelectorAll("tbody tr");
         let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
@@ -36,8 +45,42 @@ document.addEventListener("DOMContentLoaded", function() {
             data.resultados[loterias[index]] = Array.from(celdas).map(celda => celda.textContent);
         });
 
-        localStorage.setItem("resultados", JSON.stringify(data));
-        alert("Datos guardados correctamente.");
+        let jsonStr = JSON.stringify(data, null, 2);
+
+        try {
+            let getFileResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Accept": "application/vnd.github.v3+json"
+                }
+            });
+
+            let fileData = await getFileResponse.json();
+            let sha = fileData.sha;
+
+            let response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+                method: "PUT",
+                headers: {
+                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Accept": "application/vnd.github.v3+json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: "Actualización automática de resultados",
+                    content: btoa(jsonStr),
+                    sha: sha
+                })
+            });
+
+            if (response.ok) {
+                alert("Datos guardados y subidos a GitHub correctamente.");
+            } else {
+                alert("Error al subir datos a GitHub.");
+            }
+
+        } catch (error) {
+            console.error("Error al subir datos:", error);
+        }
     }
 
     // Activar edición con contraseña
