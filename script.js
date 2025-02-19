@@ -1,8 +1,3 @@
-const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
-const REPO_NAME = "agenciacentro"; // Nombre del repositorio
-const FILE_PATH = "data/resultados.json"; // Ruta del archivo en GitHub
-const TOKEN = "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"; // 🔴 Reemplázalo con tu token de GitHub
-
 document.addEventListener("DOMContentLoaded", function() {
     let botonEdicion = document.getElementById("modoEdicion");
     let botonGuardar = document.getElementById("guardarDatos");
@@ -25,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Guardar datos y subirlos a GitHub
+    // Guardar datos y activar GitHub Actions
     async function guardarDatos() {
         let fecha = document.getElementById("fechaActual").textContent.replace("Fecha: ", "");
         let filas = document.querySelectorAll("tbody tr");
@@ -37,40 +32,25 @@ document.addEventListener("DOMContentLoaded", function() {
             data.resultados[loterias[index]] = Array.from(celdas).map(celda => celda.textContent);
         });
 
-        let jsonStr = JSON.stringify(data, null, 2);
-        let base64Content = btoa(unescape(encodeURIComponent(jsonStr))); // Convertir JSON a Base64
-
         try {
-            let response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                headers: { 
-                    "Authorization": `Bearer ${TOKEN}`,
-                    "Accept": "application/vnd.github.v3+json"
-                }
-            });
-
-            let fileData = await response.json();
-            let sha = fileData.sha || "";
-
-            let updateResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                method: "PUT",
+            let response = await fetch(`https://api.github.com/repos/grisetti07/agenciacentro/dispatches`, {
+                method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${TOKEN}`,
-                    "Accept": "application/vnd.github.v3+json",
-                    "Content-Type": "application/json"
+                    "Accept": "application/vnd.github.everest-preview+json",
+                    "Authorization": `Bearer ${TOKEN}`
                 },
                 body: JSON.stringify({
-                    message: "Actualización automática de resultados",
-                    content: base64Content,
-                    sha: sha
+                    event_type: "update_resultados",
+                    client_payload: { data: JSON.stringify(data, null, 2) }
                 })
             });
 
-            if (updateResponse.ok) {
-                alert("✅ Datos guardados y subidos a GitHub correctamente.");
+            if (response.ok) {
+                alert("✅ Datos guardados. Se actualizarán en GitHub en unos segundos.");
             } else {
-                let errorMessage = await updateResponse.json();
+                let errorMessage = await response.json();
                 console.error("Error al subir datos:", errorMessage);
-                alert("❌ Error al subir datos a GitHub. Revisa la consola.");
+                alert("❌ Error al enviar los datos. Revisa la consola.");
             }
 
         } catch (error) {
