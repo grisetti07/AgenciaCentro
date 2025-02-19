@@ -36,8 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
             let response = await fetch(`https://api.github.com/repos/grisetti07/agenciacentro/dispatches`, {
                 method: "POST",
                 headers: {
-                    "Accept": "application/vnd.github.everest-preview+json",
-                    "Authorization": `Bearer ${TOKEN}`
+                    "Accept": "application/vnd.github.everest-preview+json"
                 },
                 body: JSON.stringify({
                     event_type: "update_resultados",
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
 
             if (response.ok) {
-                alert("✅ Datos guardados. Se actualizarán en GitHub en unos segundos.");
+                alert("✅ Datos enviados a GitHub. Se actualizarán en unos segundos.");
             } else {
                 let errorMessage = await response.json();
                 console.error("Error al subir datos:", errorMessage);
