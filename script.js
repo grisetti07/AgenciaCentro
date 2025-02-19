@@ -1,7 +1,7 @@
-const GITHUB_USERNAME = "grisetti07"; // Reemplaza con tu usuario de GitHub
+const GITHUB_USERNAME = "TU_USUARIO"; // Reemplaza con tu usuario de GitHub
 const REPO_NAME = "agenciacentro"; // Reemplaza con el nombre de tu repositorio
 const FILE_PATH = "data/resultados.json"; // Ruta donde se guardará el archivo
-const GITHUB_TOKEN = "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"; // 🔴 Reemplaza con tu Token de GitHub
+const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`;
 
 document.addEventListener("DOMContentLoaded", function() {
     let botonEdicion = document.getElementById("modoEdicion");
@@ -48,20 +48,17 @@ document.addEventListener("DOMContentLoaded", function() {
         let jsonStr = JSON.stringify(data, null, 2);
 
         try {
-            let getFileResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
-                headers: {
-                    "Authorization": `token ${GITHUB_TOKEN}`,
-                    "Accept": "application/vnd.github.v3+json"
-                }
+            let getFileResponse = await fetch(GITHUB_API_URL, {
+                headers: { "Accept": "application/vnd.github.v3+json" }
             });
 
             let fileData = await getFileResponse.json();
             let sha = fileData.sha;
 
-            let response = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${FILE_PATH}`, {
+            let response = await fetch(GITHUB_API_URL, {
                 method: "PUT",
                 headers: {
-                    "Authorization": `token ${GITHUB_TOKEN}`,
+                    "Authorization": `Bearer ${process.env.TOKEN}`, // Aquí usamos el secreto TOKEN
                     "Accept": "application/vnd.github.v3+json",
                     "Content-Type": "application/json"
                 },
