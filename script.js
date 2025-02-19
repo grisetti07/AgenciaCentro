@@ -1,7 +1,6 @@
 const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
 const REPO_NAME = "agenciacentro"; // Nombre del repositorio
-const FILE_PATH = "data/resultados.json"; // Ruta del archivo en GitHub
-const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${FILE_PATH}`;
+const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/resultados.json`;
 
 document.addEventListener("DOMContentLoaded", function () {
     let botonEdicion = document.getElementById("modoEdicion");
@@ -29,6 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
             console.error("Error al cargar los datos:", error);
+            document.getElementById("fechaActual").textContent = "Error al cargar datos";
         }
     }
 
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Guardar datos y actualizar resultados.json en GitHub
+    // Guardar datos en GitHub
     async function guardarDatos() {
         let fecha = new Date().toLocaleDateString("es-AR");
         let filas = document.querySelectorAll("tbody tr");
@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "Accept": "application/vnd.github.everest-preview+json",
+                    "Authorization": `Bearer ${GITHUB_TOKEN}`,
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
