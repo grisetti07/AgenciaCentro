@@ -1,7 +1,6 @@
 name: Actualizar Resultados
 
 on:
-  workflow_dispatch:
   repository_dispatch:
     types: [update_resultados]
 
@@ -17,9 +16,9 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
 
-      - name: Actualizar resultados.json
+      - name: Guardar datos en resultados.json
         run: |
-          echo '${{ github.event.client_payload.data }}' > data/resultados.json
+          echo '${{ toJson(github.event.client_payload.data) }}' > data/resultados.json
           git add data/resultados.json
           git commit -m "Actualización automática de resultados"
           git push
