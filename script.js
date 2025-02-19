@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     async function cargarDatos() {
         try {
             let response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/${FILE_PATH}`);
+            if (!response.ok) throw new Error("Archivo no encontrado.");
             let data = await response.json();
             
             document.getElementById("fechaActual").textContent = data.fecha;
