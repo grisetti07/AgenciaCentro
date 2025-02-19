@@ -1,41 +1,51 @@
-const urlJSON = "https://raw.githubusercontent.com/TU_USUARIO/agenciacentro/main/data/resultados.json";
+document.addEventListener("DOMContentLoaded", function() {
+    let botonEdicion = document.getElementById("modoEdicion");
+    let botonGuardar = document.getElementById("guardarDatos");
+    let celdas = document.querySelectorAll("td:not(:first-child)");
 
-async function cargarDatos() {
-    try {
-        let response = await fetch(urlJSON);
-        let data = await response.json();
-        
-        // Mostrar la fecha
-        document.getElementById("fechaActual").textContent = data.fecha;
+    // Cargar datos guardados en el navegador
+    function cargarDatos() {
+        let datosGuardados = localStorage.getItem("resultados");
+        if (datosGuardados) {
+            let data = JSON.parse(datosGuardados);
+            document.getElementById("fechaActual").textContent = data.fecha;
+            
+            let filas = document.querySelectorAll("tbody tr");
+            let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
+            
+            filas.forEach((fila, index) => {
+                let celdas = fila.querySelectorAll("td:not(:first-child)");
+                let resultados = data.resultados[loterias[index]];
 
-        // Llenar la tabla con los datos del JSON
+                resultados.forEach((numero, i) => {
+                    celdas[i].textContent = numero;
+                });
+            });
+        }
+    }
+
+    // Guardar datos en el navegador
+    function guardarDatos() {
+        let fecha = document.getElementById("fechaActual").textContent;
         let filas = document.querySelectorAll("tbody tr");
         let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
+        let data = { fecha: fecha, resultados: {} };
 
         filas.forEach((fila, index) => {
             let celdas = fila.querySelectorAll("td:not(:first-child)");
-            let resultados = data.resultados[loterias[index]];
-
-            resultados.forEach((numero, i) => {
-                celdas[i].textContent = numero;
-            });
+            data.resultados[loterias[index]] = Array.from(celdas).map(celda => celda.textContent);
         });
 
-    } catch (error) {
-        console.error("Error cargando datos:", error);
+        localStorage.setItem("resultados", JSON.stringify(data));
+        alert("Datos guardados correctamente.");
     }
-}
 
-// ✅ Habilitar la edición después de ingresar la contraseña
-document.addEventListener("DOMContentLoaded", function() {
-    let botonEdicion = document.getElementById("modoEdicion");
-    let celdas = document.querySelectorAll("td:not(:first-child)");
-
+    // Activar edición con contraseña
     if (botonEdicion) {
         botonEdicion.addEventListener("click", function() {
             let password = prompt("Ingrese la contraseña para habilitar la edición:");
 
-            if (password === "1234") {  
+            if (password === "1234") {
                 celdas.forEach((celda) => {
                     celda.setAttribute("contenteditable", "true");
                 });
@@ -46,23 +56,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
+
+    // Evento del botón Guardar
+    if (botonGuardar) {
+        botonGuardar.addEventListener("click", guardarDatos);
+    }
+
+    // Cargar datos al iniciar
+    cargarDatos();
 });
-
-// ✅ Guardar los datos editados y generar JSON
-async function guardarDatos() {
-    let fecha = document.getElementById("fechaActual").textContent;
-    let filas = document.querySelectorAll("tbody tr");
-    let loterias = ["Ciudad", "Provincia", "Córdoba", "Santa Fe", "Entre Ríos", "Montevideo"];
-    let data = { fecha: fecha, resultados: {} };
-
-    filas.forEach((fila, index) => {
-        let celdas = fila.querySelectorAll("td:not(:first-child)");
-        data.resultados[loterias[index]] = Array.from(celdas).map(celda => celda.textContent);
-    });
-
-    console.log("Datos guardados:", JSON.stringify(data, null, 2));
-    alert("Los datos se guardaron. Ahora sube `resultados.json` manualmente a GitHub.");
-}
-
-// ✅ Cargar los datos al iniciar la página
-cargarDatos();
