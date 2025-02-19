@@ -1,7 +1,7 @@
-const GITHUB_USERNAME = "grisetti07"; // Reemplaza con tu usuario de GitHub
-const REPO_NAME = "agenciacentro"; // Reemplaza con el nombre de tu repositorio
-const FILE_PATH = "data/resultados.json"; // Ruta donde se guardará el archivo en GitHub
-const TOKEN = "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"; // 🔴 Reemplaza con tu Token de GitHub
+const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
+const REPO_NAME = "agenciacentro"; // Nombre del repositorio
+const FILE_PATH = "data/resultados.json"; // Ruta del archivo en GitHub
+const TOKEN = "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"; // 🔴 Reemplázalo con tu nuevo token de GitHub
 
 document.addEventListener("DOMContentLoaded", function() {
     let botonEdicion = document.getElementById("modoEdicion");
