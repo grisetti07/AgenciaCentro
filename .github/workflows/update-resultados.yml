@@ -1,9 +1,9 @@
 name: Actualizar Resultados
 
 on:
-  workflow_dispatch:  # 🔹 Permite ejecutar el workflow manualmente desde GitHub Actions
+  workflow_dispatch:  # 🔹 Habilita ejecución manual
   repository_dispatch:
-    types: [update_resultados]  # 🔹 Permite ejecutar el workflow desde `script.js`
+    types: [update_resultados]
 
 jobs:
   update:
@@ -20,9 +20,9 @@ jobs:
       - name: Guardar datos en resultados.json
         run: |
           echo '${{ github.event.client_payload.data }}' > data/resultados.json
-          cat data/resultados.json  # 🔹 Muestra el contenido del archivo en la consola
+          cat data/resultados.json
           git add data/resultados.json
           git commit -m "Actualización automática de resultados"
           git push
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}  # 🔹 Ahora usamos `TOKEN` en lugar de `GITHUB_TOKEN`
