@@ -1,6 +1,6 @@
 const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
 const REPO_NAME = "agenciacentro"; // Nombre del repositorio
-const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/resultados.json?timestamp=${new Date().getTime()}`; // 🔹 Evita cargar datos antiguos en caché
+const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/resultados.json?timestamp=${new Date().getTime()}`; // Evita cargar datos antiguos en caché
 
 document.addEventListener("DOMContentLoaded", function () {
     let botonEdicion = document.getElementById("modoEdicion");
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "Accept": "application/vnd.github.everest-preview+json",
-                    "Authorization": `Bearer ${TOKEN}`,  // 🔹 Ahora usamos `TOKEN`
+                    "Authorization": `Bearer ${TOKEN}`,  // Usamos `TOKEN` en lugar de `GITHUB_TOKEN`
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
@@ -86,5 +86,5 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     botonGuardar.addEventListener("click", guardarDatos);
-    cargarDatos(); // 🔹 Cargar datos al abrir la página
+    cargarDatos(); // Cargar datos al abrir la página
 });
