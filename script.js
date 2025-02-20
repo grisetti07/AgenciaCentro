@@ -10,8 +10,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Cargar datos desde resultados.json
     async function cargarDatos() {
         try {
-            let response = await fetch(RAW_URL);
-            if (!response.ok) throw new Error("No se pudo cargar resultados.json");
+            let response = await fetch(RAW_URL, { cache: "no-store" }); // 🔹 Evita cargar datos antiguos en caché
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             let data = await response.json();
             document.getElementById("fechaActual").textContent = `Fecha: ${data.fecha}`;
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } catch (error) {
             console.error("Error al cargar los datos:", error);
-            document.getElementById("fechaActual").textContent = "Error al cargar datos";
+            document.getElementById("fechaActual").textContent = "⚠️ Error al cargar datos";
         }
     }
 
