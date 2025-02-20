@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "Accept": "application/vnd.github.everest-preview+json",
-                    "Authorization": `Bearer ${GITHUB_TOKEN}`,
+                    "Authorization": `Bearer ${TOKEN}`,  // 🔹 Ahora usamos `TOKEN` en lugar de `GITHUB_TOKEN`
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
