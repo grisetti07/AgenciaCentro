@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Guardar datos en GitHub
+    // Guardar datos en GitHub usando el secreto TOKEN
     async function guardarDatos() {
         let fecha = new Date().toLocaleDateString("es-AR");
         let filas = document.querySelectorAll("tbody tr");
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: {
                     "Accept": "application/vnd.github.everest-preview+json",
-                    "Authorization": `Bearer ${TOKEN}`,  // 🔹 Ahora usamos `TOKEN` en lugar de `GITHUB_TOKEN`
+                    "Authorization": `Bearer ${TOKEN}`,  // 🔹 Ahora usamos `TOKEN`
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
