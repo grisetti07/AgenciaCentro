@@ -1,6 +1,6 @@
 const GITHUB_USERNAME = "grisetti07"; // Tu usuario de GitHub
 const REPO_NAME = "agenciacentro"; // Nombre del repositorio
-const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/resultados.json`;
+const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USERNAME}/${REPO_NAME}/main/data/resultados.json?timestamp=${new Date().getTime()}`; // 🔹 Evita cargar datos antiguos en caché
 
 document.addEventListener("DOMContentLoaded", function () {
     let botonEdicion = document.getElementById("modoEdicion");
@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Cargar datos desde resultados.json
     async function cargarDatos() {
         try {
-            let response = await fetch(RAW_URL, { cache: "no-store" }); // 🔹 Evita cargar datos antiguos en caché
+            let response = await fetch(RAW_URL);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             let data = await response.json();
@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
         } catch (error) {
-            console.error("Error al cargar los datos:", error);
+            console.error("❌ Error al cargar los datos:", error);
             document.getElementById("fechaActual").textContent = "⚠️ Error al cargar datos";
         }
     }
@@ -75,16 +75,16 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("✅ Datos enviados a GitHub. Se actualizarán en unos segundos.");
             } else {
                 let errorMessage = await response.json();
-                console.error("Error al subir datos:", errorMessage);
+                console.error("❌ Error al subir datos:", errorMessage);
                 alert("❌ Error al enviar los datos. Revisa la consola.");
             }
 
         } catch (error) {
-            console.error("Error al subir datos:", error);
+            console.error("❌ Error al subir datos:", error);
             alert("❌ Error inesperado al intentar guardar los datos.");
         }
     }
 
     botonGuardar.addEventListener("click", guardarDatos);
-    cargarDatos(); // Cargar datos al abrir la página
+    cargarDatos(); // 🔹 Cargar datos al abrir la página
 });
